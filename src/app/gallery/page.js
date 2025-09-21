@@ -436,7 +436,7 @@ const handleImageSearch = async (file) => {
   <div className="relative z-20 p-6">
 
       {/* Gallery Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
 <div className="relative flex flex-col justify-between items-center backdrop-blur-xl bg-gradient-to-l from-[#9333ea1a] via-[#e9d5ff]/40 to-[#93c5fd]/40 border border-white/30 rounded-xl p-6 text-black row-span-2 h-full shadow-lg">
   {/* 🔹 Heading */}
   <h2 className="text-2xl font-bold text-center mb-6">

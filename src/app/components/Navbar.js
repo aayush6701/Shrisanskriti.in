@@ -21,8 +21,8 @@ const navItems = [
 ];
 
 export default function Navbar({ showLoginModal, setShowLoginModal }) {
-  const [openNavbar, setOpenNavbar] = useState(false);
-  const toggleNavbar = () => setOpenNavbar((prev) => !prev);
+  // const [openNavbar, setOpenNavbar] = useState(false);
+  // const toggleNavbar = () => setOpenNavbar((prev) => !prev);
 const [user, setUser] = useState(null);
 const router = useRouter();
 const [loadingAction, setLoadingAction] = useState(null); // "profile" | "logout" | null
@@ -102,14 +102,9 @@ setUser(data);
         </div>
 
         {/* Nav Links */}
-        {/* --- CENTER: Nav Links --- */}
-<div
-  className={`fixed inset-x-0 h-[100dvh] lg:h-max top-0 lg:opacity-100 left-0 
-  bg-white lg:!bg-transparent py-32 lg:py-0 px-5 sm:px-10 md:px-12 lg:px-0 
-  w-full lg:top-0 lg:relative lg:flex lg:justify-center duration-300 ease-linear
-  ${openNavbar ? "" : "-translate-y-10 opacity-0 invisible lg:visible lg:translate-y-0"}`}
->
-  <ul className="flex flex-col lg:flex-row gap-6 lg:items-center text-gray-900">
+      {/* --- CENTER: Nav Links (desktop only) --- */}
+<div className="hidden lg:flex justify-center flex-1">
+  <ul className="flex flex-row gap-6 items-center text-gray-900">
     {navItems.map((navItem) => (
       <li key={navItem.id}>
         <Link
@@ -122,6 +117,7 @@ setUser(data);
     ))}
   </ul>
 </div>
+
 
 {/* --- RIGHT: Auth Buttons --- */}
 <div className="hidden lg:flex items-center gap-4 min-w-max">
@@ -217,7 +213,7 @@ setUser(data);
 </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="flex items-center lg:hidden">
+        {/* <div className="flex items-center lg:hidden">
           <button
             onClick={toggleNavbar}
             className="outline-none border-l border-l-purple-100  pl-3 relative py-3"
@@ -234,7 +230,51 @@ setUser(data);
               ${openNavbar ? "-rotate-45 -translate-y-[0.33rem]" : ""}`}
             />
           </button>
-        </div>
+        </div> */}
+        {/* --- Mobile Auth (only icons, no navItems, no hamburger) --- */}
+<div className="flex lg:hidden items-center gap-3">
+  {!user ? (
+    <button
+      onClick={() => setShowLoginModal(true)}
+      className="h-10 flex items-center justify-center rounded-full px-5 
+        border-2 border-gray-400 text-purple-600"
+    >
+      Login
+    </button>
+  ) : (
+    <>
+      {/* Profile Icon */}
+      <button
+        onClick={() => router.push("/profile")}
+        className="flex items-center justify-center"
+      >
+        {user?.picture ? (
+          <img
+            src={user.picture}
+            alt={user.name || "Profile"}
+            className="h-9 w-9 rounded-full border border-gray-300 object-cover"
+          />
+        ) : (
+          <User className="h-9 w-9 text-indigo-600 border rounded-full p-1 bg-indigo-300/40" />
+        )}
+      </button>
+
+      {/* Logout Icon */}
+      <button
+        onClick={() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setUser(null);
+          router.push("/");
+        }}
+        className="h-9 w-9 flex items-center justify-center rounded-full bg-red-600 text-white"
+      >
+        <FaSignOutAlt />
+      </button>
+    </>
+  )}
+</div>
+
       </nav>
       {/* Login Modal */}
 {showLoginModal && (
