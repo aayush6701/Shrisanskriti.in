@@ -15,6 +15,7 @@ const [previewImage, setPreviewImage] = useState(null);
 const [matches, setMatches] = useState({});
 const [searching, setSearching] = useState(false);
 const [saving, setSaving] = useState(false);
+const [existingAlbums, setExistingAlbums] = useState([]);
 
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -51,6 +52,20 @@ const [saving, setSaving] = useState(false);
    window.addEventListener("keydown", handleKeyDown);
    return () => window.removeEventListener("keydown", handleKeyDown);
  }, [albums, currentImageIndex]);
+
+
+useEffect(() => {
+  const fetchAlbums = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gallery/albums`);
+      const data = await res.json();
+      setExistingAlbums(data.albums || []);   // 🔥 store separately
+    } catch (err) {
+      console.error("❌ Error fetching albums:", err);
+    }
+  };
+  fetchAlbums();
+}, []);
 
 
 
@@ -326,6 +341,25 @@ const handleSaveAlbum = async (album) => {
 
   return (
     <div className="rounded-xl bg-white/20 backdrop-blur-lg p-6 shadow-lg border border-white/30 space-y-8">
+      <div className="mb-4">
+  <label className="block text-sm text-black font-medium mb-1">Select Existing Album</label>
+  <select
+  className="text-black"
+  onChange={(e) => {
+    const [title, date] = e.target.value.split("|");
+    setFormData({ ...formData, title, date });
+  }}
+>
+  <option value="">-- Select Album (optional) --</option>
+  {existingAlbums.map((album) => (
+    <option key={album._id} value={`${album.title}|${album.date}`}>
+      {album.title} ({album.date})
+    </option>
+  ))}
+</select>
+
+</div>
+
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6 text-gray-900">
         <h2 className="text-2xl font-bold text-gray-900">Add New Album</h2>
@@ -426,13 +460,15 @@ const handleSaveAlbum = async (album) => {
                 <p className="text-sm text-gray-600">{album.date}</p>
 
 <button
+  onClick={handleSearchMatches}
   disabled={searching}
   className={`mt-2 px-4 py-2 rounded-lg text-white ${
     searching
       ? "bg-purple-400 cursor-not-allowed"
       : "bg-purple-600 hover:bg-purple-700"
-  }`}>
- {searching ? "Searching…" : "🔍 Search Matches"}
+  }`}
+>
+  {searching ? "Searching…" : "🔍 Search Matches"}
 </button>
 
 <button
