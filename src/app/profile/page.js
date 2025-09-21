@@ -303,7 +303,7 @@ useEffect(() => {
 <div>
   {user?.profilePic ? (
     <AnimatedTestimonials
-      images={["/ai1.webp", "/i1.jpg","/i3.jpg", "/i4.jpg", "/i5.jpg", "/i6.jpg"]}
+      images={[ "/i1.JPG","/i3.JPG", "/i4.JPG", "/i5.JPG", "/i6.JPG"]}
       autoplay={true}
     />
   ) : (

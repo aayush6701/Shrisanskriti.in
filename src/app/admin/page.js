@@ -47,38 +47,38 @@ export default function AdminLoginPage() {
   };
 
   // ✅ Register
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (loading) return;
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   if (loading) return;
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+  //   if (password !== confirmPassword) {
+  //     setError("Passwords do not match");
+  //     return;
+  //   }
 
-    setLoading(true);
-    setError("");
+  //   setLoading(true);
+  //   setError("");
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/admin/self-register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, mobile, password }), // ✅ added mobile
-      });
+  //   try {
+  //     const response = await fetch(`${API_BASE_URL}/admin/self-register`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ name, email, mobile, password }), // ✅ added mobile
+  //     });
 
-      if (!response.ok) {
-        throw new Error("Registration failed");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Registration failed");
+  //     }
 
-      await response.json();
-      alert("Registration successful!");
-      setIsRegister(false);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     await response.json();
+  //     alert("Registration successful!");
+  //     setIsRegister(false);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-indigo-300 via-purple-200 to-blue-200 px-4">
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
             >
               {loading ? "Logging in..." : "Login"}
             </button>
-
+{/* 
             <p className="text-sm text-gray-700 text-center">
               Don’t have an account?{" "}
               <button
@@ -134,7 +134,7 @@ export default function AdminLoginPage() {
               >
                 Register
               </button>
-            </p>
+            </p> */}
           </form>
         ) : (
           // 🔹 Register Form
@@ -200,13 +200,13 @@ export default function AdminLoginPage() {
               />
             </div>
 
-            <button
+            {/* <button
               type="submit"
               disabled={loading}
               className="w-full rounded-lg bg-green-500 px-4 py-2 text-white font-semibold hover:bg-green-600 transition disabled:opacity-50"
             >
               {loading ? "Registering..." : "Register"}
-            </button>
+            </button> */}
 
             <p className="text-sm text-gray-700 text-center">
               Already have an account?{" "}

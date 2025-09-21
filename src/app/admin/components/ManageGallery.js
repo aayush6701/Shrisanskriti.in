@@ -13,6 +13,9 @@ export default function ManageGallery() {
 // State for preview modal
 const [previewImage, setPreviewImage] = useState(null);
 const [matches, setMatches] = useState({});
+const [searching, setSearching] = useState(false);
+const [saving, setSaving] = useState(false);
+
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -53,8 +56,8 @@ const [matches, setMatches] = useState({});
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length + formData.images.length > 10) {
-      alert("⚠️ You can upload a maximum of 10 images.");
+     if (files.length + formData.images.length > 20) {
+      alert("⚠️ You can upload a maximum of 20 images.");
       return;
     }
     setFormData({ ...formData, images: [...formData.images, ...files] });
@@ -196,6 +199,8 @@ const handleRemoveProcessedImage = (albumId, imgIndex) => {
     formData.images.length > 0;
 
 const handleSearchMatches = async () => {
+   if (searching) return; // prevent duplicates
+  setSearching(true);
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/embeddings`);
     const data = await res.json();
@@ -235,10 +240,14 @@ const handleSearchMatches = async () => {
     setMatches(newMatches);
   } catch (err) {
     console.error("❌ Error fetching embeddings:", err);
+  } finally {
+    setSearching(false);
   }
 };
 
 const handleSaveAlbum = async (album) => {
+   if (saving) return; // prevent duplicates
+  setSaving(true);
   try {
     const formData = new FormData();
     formData.append("title", album.title);
@@ -309,6 +318,8 @@ const handleSaveAlbum = async (album) => {
   } catch (err) {
     console.error("❌ Error saving album:", err);
     alert("Failed to save album.");
+  } finally {
+    setSaving(false);
   }
 };
 
@@ -344,7 +355,7 @@ const handleSaveAlbum = async (album) => {
         {/* Upload box */}
         <div>
           <label className="block text-sm font-medium mb-2">
-            Upload Images (max 10)
+            Upload Images (max 20)
           </label>
           <div className="relative flex flex-col items-center justify-center w-full border-2 border-dashed border-indigo-400 rounded-lg p-6 bg-white/30 cursor-pointer hover:bg-indigo-50 transition">
             <FaUpload className="text-indigo-500 text-3xl mb-2" />
@@ -415,17 +426,25 @@ const handleSaveAlbum = async (album) => {
                 <p className="text-sm text-gray-600">{album.date}</p>
 
 <button
-  onClick={handleSearchMatches}
-  className="mt-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
->
-  🔍 Search Matches
+  disabled={searching}
+  className={`mt-2 px-4 py-2 rounded-lg text-white ${
+    searching
+      ? "bg-purple-400 cursor-not-allowed"
+      : "bg-purple-600 hover:bg-purple-700"
+  }`}>
+ {searching ? "Searching…" : "🔍 Search Matches"}
 </button>
 
 <button
   onClick={() => handleSaveAlbum(album)}
-  className="mt-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-green-600 text-white rounded-lg hover:bg-green-700"
+ disabled={saving}
+  className={`mt-2 px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg text-white ${
+    saving
+      ? "bg-green-400 cursor-not-allowed"
+      : "bg-green-600 hover:bg-green-700"
+  }`}
 >
-  💾 Save Album
+  {saving ? "Saving…" : "💾 Save Album"}
 </button>
 
                 {/* Original Image with nav + remove */}
