@@ -519,9 +519,9 @@ const handleImageSearch = async (file) => {
   >
     <Share2 size={20} />
   </button>
-  <button className="bg-black/60 p-2 rounded-full text-white hover:bg-black/80">
+  {/* <button className="bg-black/60 p-2 rounded-full text-white hover:bg-black/80">
     <Printer size={20} />
-  </button>
+  </button> */}
 </div>
 
 

@@ -645,7 +645,7 @@ onSubmit={async (e) => {
   type="file"
   name="profilePic"
   accept="image/*"
-  capture="environment"
+  // capture="environment"
   required
   onChange={(e) => {
     const file = e.target.files?.[0];
