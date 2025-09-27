@@ -72,12 +72,12 @@ useEffect(() => {
 
 
 
-    useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (!user) {
-      router.push("/"); // redirect if not logged in
-    }
-  }, [router]);
+  //   useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   if (!user) {
+  //     router.push("/"); // redirect if not logged in
+  //   }
+  // }, [router]);
 
 
   useEffect(() => {
@@ -437,37 +437,17 @@ const handleImageSearch = async (file) => {
 
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
-<div className="relative flex flex-col justify-between items-center backdrop-blur-xl bg-gradient-to-l from-[#9333ea1a] via-[#e9d5ff]/40 to-[#93c5fd]/40 border border-white/30 rounded-xl p-6 text-black row-span-2 h-full shadow-lg">
-  {/* 🔹 Heading */}
-  <h2 className="text-2xl font-bold text-center mb-6">
-    Get Your Personalized Gallery
-  </h2>
-
- <p className="text-lg text-gray-600 text-center mt-4">
-    AI Powered Search for Face Recognition
-  </p>
-
-  {/* 🔹 Push content down so video + button stay at bottom */}
-  <div className="flex flex-col items-center mt-auto w-full">
-    <video
-      src="/Face lock.mp4"
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="w-full rounded-lg border-0 outline-none"
-    />
-<button
-  onClick={handleSearch}
-  className="mt-3 px-4 py-2 w-full bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
->
-  {aiMode || filterMode ? "Back to Gallery" : "Search Image using AI"}
-
-</button>
-
-
-  </div>
+<div className="relative flex items-center justify-center row-span-2 h-full">
+  <Image
+    src="/jainam3.jpg"
+    alt="Ganesh"
+    width={600}   // you can adjust
+    height={900}  // maintain aspect ratio
+    className="rounded-xl shadow-lg object-contain"
+    priority
+  />
 </div>
+
 
   {/* 🔹 Existing Images */}
   {images.map((src, i) => (

@@ -185,25 +185,20 @@ export default function OngoingEvent({ setShowLoginModal }) {
         Starts From 27 Sept – 29 Sept
       </p>
       <p className="text-base sm:text-lg font-semibold text-[#54104d]">
-        Place – Sarasvati Shishu Mandir, Pandariya
+        {/* Place – Sarasvati Shishu Mandir, Pandariya */}
       </p>
     </div>
 
     {/* Image */}
-    <div className="w-30 h-30 sm:w-46 sm:h-46 mb-6">
+    <div className="w-60 h-80 sm:w-46 sm:h-46 mb-6">
       <img
-        src="/dan3.png"
+        src="/chbl.jpeg"
         alt="Dandiya"
-        className="w-full h-full object-contain"
+        className="w-full h-full object-contain rounded-lg"
       />
     </div>
 
-    {/* Button */}
-    {/* <button onClick={() => router.push("/register")} className="text-[#54104d] bg-white font-bold px-8 py-3 rounded-full 
-                       shadow-lg hover:scale-105 transition duration-300">
-      Register Now
-    </button> */}
- <button
+ {/* <button
    onClick={() => {
      const token = localStorage.getItem("token");
      const user = localStorage.getItem("user");
@@ -217,7 +212,7 @@ export default function OngoingEvent({ setShowLoginModal }) {
               shadow-lg hover:scale-105 transition duration-300"
  >
    Register Now
- </button>
+ </button> */}
   </div>
 </CometCard>
 

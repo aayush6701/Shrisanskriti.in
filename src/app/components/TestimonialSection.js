@@ -511,29 +511,31 @@ import Image from "next/image";
 const testimonials = [
   {
     id: 1,
-    name: "International Women's Day",
+    name: "Jainam Collection",
     role: "",
-    avatar: "/Logo SMG.png",
-    bg: "/n1-min.png",
-    text: "This celebration is our way of acknowledging the strength, achievements, and contributions of women of our society",
+    avatar: "/jain2.jpg",
+    bg: "/jainam1.jpg",
+    text: "Jainam Collection Is Located near Bank Of Baroda Kawardha Road Pandariya. Best Colthing Store that offer best quality, widest variety at most affordable price.",
   },
   {
     id: 2,
-    name: "Sawan Milan Samaroh",
+    name: "Ganesh Super Bazar",
     role: "",
-    avatar: "/Logo SMG.png",
-    bg: "/n2-min.png",
-    text: "The event was not just a celebration, but also an opportunity to bring our community together, strengthen bonds of unity, and share moments of joy.",
+    avatar: "/ganesh2.jpeg",
+    bg: "/ganesh.jpg",
+    text: "Ganesh Super Bazar- Super Mart Of Pandariya. Best in qality for all you home essentials and daily needs. We also offer home delivery.",
   },
   {
     id: 3,
-    name: "Environment Conservation",
+    name: "Chhabra Enterprises",
     role: "",
-    avatar: "/Logo SMG.png",
-    bg: "/n3-min.png",
-    text: "we aimed to contribute to a greener and healthier environment. This initiative not only strengthened our bond with nature but also united the community in a meaningful way.",
+    avatar: "/cel.jpg",
+    bg: "/cd.jpg",
+    text: "Chhabra Enterprises. Best Deal for all products with guranteed after service. Unique and wide variety of electronics furniture and all types of enterprices. ",
   },
 ];
+
+
 
 const TestimonialSection = ({ id }) => {
   const [current, setCurrent] = useState(0);
@@ -549,6 +551,15 @@ const TestimonialSection = ({ id }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Auto change testimonial every 5 seconds
+useEffect(() => {
+  const interval = setInterval(() => {
+    nextTestimonial();
+  }, 5000); // 5000ms = 5 seconds
+
+  return () => clearInterval(interval); // cleanup on unmount
+}, [current]); // depend on current to reset when user clicks prev/next
 
   const prevTestimonial = () => {
     setDirection(-1);
@@ -588,10 +599,10 @@ const TestimonialSection = ({ id }) => {
         {/* Header */}
         <div className="space-y-4 max-w-2xl">
           <span className="rounded-lg bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-500 px-3 py-1 text-xs font-semibold tracking-wide text-white">
-            Blogs
+            Associates
           </span>
-          <h1 className="text-3xl font-bold text-gray-900">
-            What they say about us
+          <h1 className="text-3xl mt-1 font-bold text-gray-900">
+            Our Sponsers
           </h1>
         </div>
 
@@ -707,7 +718,7 @@ const TestimonialSection = ({ id }) => {
                 </button>
 
                 {/* Dots */}
-                <div className="flex w-max min-w-max items-center">
+                {/* <div className="flex w-max min-w-max items-center">
                   <div className="flex items-center gap-1">
                     {testimonials.map((t, index) => (
                       <span
@@ -724,7 +735,7 @@ const TestimonialSection = ({ id }) => {
                       />
                     ))}
                   </div>
-                </div>
+                </div> */}
 
                 {/* Next */}
                 <button

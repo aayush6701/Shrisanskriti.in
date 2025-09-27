@@ -165,7 +165,7 @@ const handleOpenModal = (user = null) => {
       ) : filteredUsers.length === 0 ? (
         <p className="text-gray-700">No users found.</p>
       ) : (
-        <table className="w-full border border-gray-300 text-left text-sm rounded-lg overflow-hidden">
+        <table className="w-full border border-gray-300 text-left text-black text-sm rounded-lg overflow-hidden">
           <thead className="bg-indigo-200/50">
             <tr>
               <th className="p-2 border">Name</th>

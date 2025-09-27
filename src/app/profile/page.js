@@ -291,7 +291,12 @@ useEffect(() => {
   <div className="mt-6 space-y-3 text-white [text-shadow:_2px_2px_6px_rgba(0,0,0,0.5)]">
 <p><span className="font-bold">Name: </span>{user?.name || "N/A"}</p>
 <p><span className="font-bold">Email: </span>{user?.email || "N/A"}</p>
-<p><span className="font-semibold">Mobile: </span>{user?.mobile || "N/A"}</p>
+{/* <p><span className="font-semibold">Mobile: </span>{user?.mobile || "N/A"}</p> */}
+<p>
+  <span className="font-semibold">Mobile: </span>
+  {user?.mobile === "8959576199" ? "N/A" : (user?.mobile || "N/A")}
+</p>
+
 <p><span className="font-semibold">Address: </span>{user?.address || "N/A"}</p>
 
   </div>
@@ -301,20 +306,11 @@ useEffect(() => {
 
 {/* Gallery or Update Box */}
 <div>
-  {user?.profilePic ? (
-    <AnimatedTestimonials
-      images={[ "/i1.JPG","/i3.JPG", "/i4.JPG", "/i5.JPG", "/i6.JPG"]}
-      autoplay={true}
-    />
-  ) : (
-    <div
-  onClick={() => setShowProfileModal(true)}
-  className="cursor-pointer flex items-center justify-center p-6 rounded-xl bg-white/70 border border-dashed border-red-400 text-red-600 text-center font-semibold hover:bg-white transition"
->
-  Update your profile to access all features
-</div>
+<AnimatedTestimonials
+  images={["/i1.JPG","/i3.JPG","/i4.JPG","/i5.JPG","/i6.JPG"]}
+  autoplay={true}
+/>
 
-  )}
 </div>
 
 
@@ -323,7 +319,7 @@ useEffect(() => {
 
 
   {/* Logout */}
-  <div className="flex justify-center mt-6">
+  {/* <div className="flex justify-center mt-6">
   <button
     onClick={() => {
       localStorage.removeItem("token");
@@ -334,7 +330,7 @@ useEffect(() => {
   >
     Logout
   </button>
-</div>
+</div> */}
 
 </div>
 
@@ -356,54 +352,44 @@ useEffect(() => {
     </h1>
 
     {/* ✅ Logic for profile + event pass */}
-    {user?.profilePic && user?.mobile && user?.address ? (
-     user?.event ? (
-  // ✅ User already registered → show pass with token in QR
+    {user?.event ? (
   <InvitationCard qrValue={localStorage.getItem("token")} />
 ) : (
+  <div className="flex flex-col items-center justify-center gap-4 p-6 rounded-xl bg-white/70 text-gray-900 shadow border border-dashed border-indigo-400">
+    <p className="text-lg font-semibold">🎟 Get your pass now!</p>
+    <button
+      onClick={async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/register-event`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.detail || "Failed to register");
 
-        // 🚫 Not registered for event → show "Get Pass" box
-        <div className="flex flex-col items-center justify-center gap-4 p-6 rounded-xl bg-white/70 text-gray-900 shadow border border-dashed border-indigo-400">
-          <p className="text-lg font-semibold">🎟 Get your pass now!</p>
-          <button
-            onClick={async () => {
-              try {
-                const token = localStorage.getItem("token");
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register-event`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                  },
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.detail || "Failed to register");
+          const updatedUser = { ...user, event: true };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+          setUser(updatedUser);
 
-                // ✅ Update local user object
-                const updatedUser = { ...user, event: true };
-                localStorage.setItem("user", JSON.stringify(updatedUser));
-                setUser(updatedUser);
+          alert("Pass registered successfully 🎉");
+        } catch (err) {
+          alert(err.message);
+        }
+      }}
+      className="px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+    >
+      Register Now
+    </button>
+  </div>
+)}
 
-                alert("Pass registered successfully 🎉");
-              } catch (err) {
-                alert(err.message);
-              }
-            }}
-            className="px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
-          >
-            Register Now
-          </button>
-        </div>
-      )
-    ) : (
-      // 🚫 Profile not updated
-      <div
-        onClick={() => setShowProfileModal(true)}
-        className="cursor-pointer flex items-center justify-center p-6 rounded-xl bg-white/70 border border-dashed border-red-400 text-red-600 text-center font-semibold hover:bg-white transition"
-      >
-        Update your profile to access Invitation
-      </div>
-    )}
   </div>
 </div>
 
